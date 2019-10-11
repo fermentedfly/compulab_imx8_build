@@ -87,7 +87,7 @@ ENV IMAGE=core-image-full-cmdline
 RUN printf '1\n3\n1\n' > user_conf
 
 # run setup script
-RUN source sources/meta-bsp-imx8mq/tools/setup-imx8mq-env -b build-${MACHINE}-${DISTRO} < user_conf && \
+CMD source sources/meta-bsp-imx8mq/tools/setup-imx8mq-env -b build-${MACHINE}-${DISTRO} < user_conf && \
  # override sanity check url,
  echo 'CONNECTIVITY_CHECK_URIS = "https://www.orf.at"' >> conf/local.conf && \
  # enable virtualization distro feature
