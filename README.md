@@ -8,7 +8,7 @@ Create Docker image
 This downloads all dependencies and sources and creates a container ready for build
 
 ```bash
-docker build --build-arg "host_uid=$(id -u)" --build-arg "host_gid=$(id -g)" --tag yocto .
+docker build --build-arg "host_uid=$(id -u)" --build-arg "host_gid=$(id -g)" --build-arg "CACHEBUST=$(date +%s)" --tag yocto .
 ```
 
 Create a output folder in the same directory
