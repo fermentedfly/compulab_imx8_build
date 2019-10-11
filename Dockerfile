@@ -8,7 +8,7 @@
 # docker build --build-arg "host_uid=$(id -u)" --build-arg "host_gid=$(id -g)" --tag yocto .
 #
 # RUN
-# docker run -it --rm -v $PWD/output:/home/vifdaq/vifdaq_v3/build-cl-som-imx8-fsl-imx-xwayland yocto
+# docker run -it --rm -v $PWD/output:/home/vifdaq/vifdaq_v3/build-cl-som-imx8-fsl-imx-xwayland -e root_password=vifdaq yocto
 
 # Base Image Ubuntu LTS
 FROM ubuntu:18.04
@@ -97,10 +97,13 @@ CMD source sources/meta-bsp-imx8mq/tools/setup-imx8mq-env -b build-${MACHINE}-${
  # add meta-virtualization layer
  bitbake-layers add-layer ../sources/meta-virtualization && \
  # add docker to build
- echo 'CORE_IMAGE_EXTRA_INSTALL += "docker"' >> conf/local.conf && \
+ echo 'CORE_IMAGE_EXTRA_INSTALL += " docker-ce"' >> conf/local.conf && \
  # add mdns to build
- echo 'CORE_IMAGE_EXTRA_INSTALL += "mdns"' >> conf/local.conf && \
+ echo 'CORE_IMAGE_EXTRA_INSTALL += " mdns"' >> conf/local.conf && \
  # added ifupdown to build
- echo 'CORE_IMAGE_EXTRA_INSTALL += "connman"' >> conf/local.conf && \
+ echo 'CORE_IMAGE_EXTRA_INSTALL += " connman"' >> conf/local.conf && \
+ # set root password
+ echo 'INHERIT += "extrausers"' >> conf/local.conf && \
+ echo 'EXTRA_USERS_PARAMS = "usermod -p "'"${root_password}"'" root;"' >> conf/local.conf && \
  # Run image create
  bitbake -k ${IMAGE}
