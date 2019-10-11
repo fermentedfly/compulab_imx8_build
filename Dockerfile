@@ -83,11 +83,6 @@ ENV MACHINE=cl-som-imx8
 ENV DISTRO=fsl-imx-xwayland
 ENV IMAGE=core-image-full-cmdline
 
-# force docker to always run from here if CACHEBUST arg is set to $date or similar
-ARG CACHEBUST=1 
-COPY --chown=$host_uid:$host_gid build.sh .
-RUN chmod a+x build.sh
-
 # generate a file to simulate user input during config (default mem, disable chromium, rw)
 RUN printf '1\n3\n1\n' > user_conf
 
