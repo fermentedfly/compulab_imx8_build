@@ -83,9 +83,7 @@ ENV MACHINE=cl-som-imx8
 ENV DISTRO=fsl-imx-xwayland
 ENV IMAGE=core-image-full-cmdline
 
-# force docker to always run from here if CACHEBUST arg is set to $date or similar
-ARG CACHEBUST=1 
-COPY --chown=$host_uid:$host_gid build.sh .
+ADD https://raw.githubusercontent.com/manuelseeboeck/compulab_imx8_build/master/build.sh .
 RUN chmod a+x build.sh
 
 # run setup script, temporary, run shell afterwards
