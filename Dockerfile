@@ -79,9 +79,13 @@ RUN git -C sources/meta-bsp-imx8mq checkout master
 RUN git clone -b sumo git://git.yoctoproject.org/meta-virtualization sources/meta-virtualization
 RUN git -C sources/meta-virtualization checkout sumo
 
+# locker docker patches repo
+ADD meta-minimal-docker sources/meta-minimal-docker
+
 ENV MACHINE=cl-som-imx8
 ENV DISTRO=fsl-imx-xwayland
 ENV IMAGE=core-image-full-cmdline
+# ENV IMAGE=fsl-image-qt5-validation-imx
 
 # generate a file to simulate user input during config (default mem, disable chromium, rw)
 RUN printf '1\n3\n1\n' > user_conf
@@ -96,6 +100,8 @@ CMD source sources/meta-bsp-imx8mq/tools/setup-imx8mq-env -b build-${MACHINE}-${
  sed -i '1iBBINCLUDELOGS = "yes"' conf/local.conf && \
  # add meta-virtualization layer
  bitbake-layers add-layer ../sources/meta-virtualization && \
+ # add meta-docker layer
+ bitbake-layers add-layer ../sources/meta-minimal-docker && \
  # make room for docker images
  #echo 'IMAGE_ROOTFS_EXTRA_SPACE = "10000000"' >> conf/local.conf && \
  # add docker to build
