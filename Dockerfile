@@ -96,12 +96,14 @@ CMD source sources/meta-bsp-imx8mq/tools/setup-imx8mq-env -b build-${MACHINE}-${
  sed -i '1iBBINCLUDELOGS = "yes"' conf/local.conf && \
  # add meta-virtualization layer
  bitbake-layers add-layer ../sources/meta-virtualization && \
+ # make room for docker images
+ #echo 'IMAGE_ROOTFS_EXTRA_SPACE = "10000000"' >> conf/local.conf && \
  # add docker to build
- echo 'CORE_IMAGE_EXTRA_INSTALL += " docker-ce"' >> conf/local.conf && \
+ echo 'IMAGE_INSTALL_append = " docker docker-contrib"' >> conf/local.conf && \
  # add mdns to build
- echo 'CORE_IMAGE_EXTRA_INSTALL += " mdns"' >> conf/local.conf && \
+ echo 'IMAGE_INSTALL_append = " mdns"' >> conf/local.conf && \
  # added ifupdown to build
- echo 'CORE_IMAGE_EXTRA_INSTALL += " connman"' >> conf/local.conf && \
+ echo 'IMAGE_INSTALL_append = " connman"' >> conf/local.conf && \
  # set root password
  echo 'INHERIT += "extrausers"' >> conf/local.conf && \
  echo 'EXTRA_USERS_PARAMS = "usermod -p "'"${root_password}"'" root;"' >> conf/local.conf && \
